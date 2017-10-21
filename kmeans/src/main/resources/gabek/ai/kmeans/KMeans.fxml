@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+
+
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Separator?>
+
+<?import javafx.scene.canvas.Canvas?>
+<BorderPane fx:id="root" xmlns:fx="http://javafx.com/fxml"
+            stylesheets="/gabek/ai/kmeans/KMeans.css" fx:controller="gabek.ai.kmeans.KMeansControl">
+    <top>
+        <ToolBar>
+            <Button onAction="#loadData">Load Data</Button>
+            <Label>Number Of Groups: </Label>
+            <TextField fx:id="groupInput" styleClass="int-input">4</TextField>
+
+            <Separator />
+            <Button onAction="#run">Run</Button>
+        </ToolBar>
+    </top>
+
+    <center>
+        <Canvas fx:id="canvas" width="600" height="600"/>
+    </center>
+
+    <bottom>
+        <ToolBar>
+            <Label fx:id="iterationLabel">Iteration: -</Label>
+            <Button onAction="#prevFrame">&lt;</Button>
+            <Button onAction="#nextFrame">&gt;</Button>
+        </ToolBar>
+    </bottom>
+</BorderPane>

@@ -1,0 +1,30 @@
+title: "xor"
+
+network:
+  learingRate: 0.4
+
+  input  : 2
+  hidden : [ 4 ]
+  output : 1
+
+format:
+  input:
+    type       : image
+    width      : 5
+    height     : 5
+    
+  output:
+    type       : cat
+    categories : ["+", "-", "\\", "/", "x"]
+
+training:
+  maxReps      : 10000
+  testInterval : 50
+  targetError  : 0.05
+  split        : 0.8
+
+  dataFile     : "nn5x5.png"
+
+output:
+  - trainingLog
+

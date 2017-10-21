@@ -1,0 +1,30 @@
+title: "or"
+
+network:
+  learingRate: 0.4
+
+  input  : 2
+  hidden : [ 4, 4, 4 ]
+  output : 1
+
+format:
+  input:
+    type     : bool
+    falseVal : 0.1
+    trueVal  : 0.9
+    
+  output:
+    type     : bool
+    falseVal : 0.1
+    trueVal  : 0.9
+
+training:
+  maxReps      : 10000
+  testInterval : 50
+  targetError  : 0.05 
+
+  data:
+    - [[ false, false ], [ false ] ]
+    - [[ false, true  ], [ true  ] ]
+    - [[ true,  false ], [ true  ] ]
+    - [[ true,  true  ], [ true  ] ]

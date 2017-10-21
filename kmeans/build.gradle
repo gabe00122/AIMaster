@@ -1,0 +1,21 @@
+group 'gabek.ai'
+version '0.1'
+
+ext {
+    main_class = 'gabek.ai.kmeans.KMeansApp'
+}
+
+task launch(type: JavaExec, dependsOn: classes){
+    main = main_class
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": main_class
+    }
+
+    from { configurations.compile.collect { zipTree(it) } }
+
+    destinationDir = file("./out")
+}
