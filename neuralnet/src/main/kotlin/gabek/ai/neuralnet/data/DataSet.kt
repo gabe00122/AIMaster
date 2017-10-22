@@ -5,7 +5,7 @@ class DataSet<I, O>(
         outputFormat: DataFormat<O>,
         data: List<Pair<List<I>, List<O>>>){
 
-    val signals: List<DataPoint<List<Double>, List<Double>>> =
+    val signals: List<DataPoint> =
             data.mapTo(ArrayList()) { (input, output) ->
                 BasicDataPoint(inputFormat.toSignal(input), outputFormat.toSignal(output))
             }
