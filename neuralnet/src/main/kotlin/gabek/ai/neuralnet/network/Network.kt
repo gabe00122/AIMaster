@@ -1,13 +1,15 @@
-package gabek.ai.neuralnet.net
+package gabek.ai.neuralnet.network
+
+import java.util.*
 
 /**
  * @author Gabriel Keith
  * @date 8/28/2017
  */
-class Network(private val config: NetworkConfig){
-    private val inputLayer = Layer(config, config.inputSize, Node.Type.INPUT)
-    private val outputLayer = Layer(config, config.outputSize, Node.Type.OUTPUT)
-    private val hiddenLayers = Array(config.hiddenSizes.size, { i -> Layer(config, config.hiddenSizes[i], Node.Type.HIDDEN) })
+class Network(input: Int, hidden: List<Int>, output: Int, private val learningRate: Double, random: Random){
+    private val inputLayer = Layer(input, random)
+    private val outputLayer = Layer(output, random)
+    private val hiddenLayers = Array(hidden.size, { i -> Layer(hidden[i], random) })
 
     private val outputArray = Array(outputLayer.size, { 0.0 })
 
@@ -20,7 +22,7 @@ class Network(private val config: NetworkConfig){
         currentLayer.connect(outputLayer)
     }
 
-    fun train(input: Array<Double>, target: Array<Double>) {
+    fun train(input: List<Double>, target: List<Double>) {
         process(input)
         outputLayer.calculateError(target)
 
@@ -29,20 +31,20 @@ class Network(private val config: NetworkConfig){
                 hiddenLayers[i].backPropagate()
             }
         }
-        //inputLayer.backPropagate()
+        inputLayer.backPropagate()
 
-        //inputLayer.updateWeights()
+        inputLayer.updateWeights(learningRate)
         for(layer in hiddenLayers){
-            layer.updateWeights()
+            layer.updateWeights(learningRate)
         }
-        outputLayer.updateWeights()
+        outputLayer.updateWeights(learningRate)
     }
 
-    fun test(input: Array<Double>, target: Array<Double>): Double{
+    fun test(input: List<Double>, target: List<Double>): Double{
         return Math.pow(target[0] - process(input)[0], 2.0)
     }
 
-    fun process(input: Array<Double>): Array<Double> {
+    fun process(input: List<Double>): Array<Double> {
         resetSignals()
         inputLayer.setInputs(input)
 

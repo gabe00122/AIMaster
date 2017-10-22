@@ -1,15 +1,14 @@
-package gabek.ai.neuralnet.net
+package gabek.ai.neuralnet.network
+
+import java.util.*
 
 /**
  * @author Gabriel Keith
  * @date 8/28/2017
  */
-class Layer(
-        private val config: NetworkConfig,
-        val size: Int,
-        private val nodeType: Node.Type){
+class Layer(val size: Int, random: Random){
 
-    val nodes = Array(size, { Node(config, nodeType) })
+    val nodes = Array(size, { Node(random) })
 
     fun connect(layer: Layer){
         for(node in nodes){
@@ -17,7 +16,7 @@ class Layer(
         }
     }
 
-    fun setInputs(inputs: Array<Double>){
+    fun setInputs(inputs: List<Double>){
         for(i in 0 until nodes.size){
             nodes[i].signal = inputs[i]
         }
@@ -29,7 +28,7 @@ class Layer(
         }
     }
 
-    fun calculateError(target: Array<Double>){
+    fun calculateError(target: List<Double>){
         for(i in 0 until nodes.size){
             nodes[i].calculateError(target[i])
         }
@@ -47,9 +46,9 @@ class Layer(
         }
     }
 
-    fun updateWeights(){
+    fun updateWeights(learningRate: Double){
         for(node in nodes){
-            node.updateWeights()
+            node.updateWeights(learningRate)
         }
     }
 

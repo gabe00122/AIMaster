@@ -21,7 +21,3 @@ jar {
 
     destinationDir = file("./out")
 }
-
-dependencies {
-    compile "org.yaml:snakeyaml:1.18"
-}

@@ -1,4 +1,4 @@
-package gabek.ai.neuralnet.net
+package gabek.ai.neuralnet.network
 
 /**
  * @author Gabriel Keith
