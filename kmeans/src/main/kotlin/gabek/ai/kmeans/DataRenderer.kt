@@ -11,6 +11,8 @@ import javafx.scene.paint.Paint
 class DataRenderer(private val canvas: Canvas) {
     var pointSize = 7.0
     var groupPointSize = 10.0
+    var viewportWidth = 1000000
+    var viewportHeight = 1000000
 
     init {
         clear()
@@ -42,8 +44,8 @@ class DataRenderer(private val canvas: Canvas) {
 
         repeat(numPoints) { point ->
             gc.fill = if(frame != null && pointStyle != null) pointStyle[frame.pointGroups[point]] else Color.BLACK
-            gc.fillOval(points.xAxis[point] * width - pointSize / 2.0,
-                        points.yAxis[point] * height - pointSize / 2.0,
+            gc.fillOval(points.xAxis[point] / viewportWidth * width - pointSize / 2.0,
+                        points.yAxis[point] / viewportHeight * height - pointSize / 2.0,
                           pointSize, pointSize)
         }
     }
@@ -60,7 +62,7 @@ class DataRenderer(private val canvas: Canvas) {
 
 
         var currentFrame: Frame? = null
-        var prevFrame: Frame? = null
+        var prevFrame: Frame?
         for(i in range) {
             prevFrame = currentFrame
             currentFrame = frames[i]
@@ -69,10 +71,10 @@ class DataRenderer(private val canvas: Canvas) {
                 for (group in 0 until numGroups) {
                     gc.stroke = pointStyle[group]
                     gc.strokeLine(
-                            prevFrame.groupX[group] * width,
-                            prevFrame.groupY[group] * height,
-                            currentFrame.groupX[group] * width,
-                            currentFrame.groupY[group] * height
+                            prevFrame.groupX[group] / viewportWidth * width,
+                            prevFrame.groupY[group] / viewportHeight * height,
+                            currentFrame.groupX[group] / viewportWidth * width,
+                            currentFrame.groupY[group] / viewportHeight * height
                     )
                 }
             }
@@ -81,8 +83,8 @@ class DataRenderer(private val canvas: Canvas) {
                 for (group in 0 until numGroups) {
                     gc.fill = pointStyle[group]
                     gc.fillRect(
-                            currentFrame.groupX[group] * width - groupPointSize / 2.0,
-                            currentFrame.groupY[group] * height - groupPointSize / 2.0,
+                            currentFrame.groupX[group] / viewportWidth * width - groupPointSize / 2.0,
+                            currentFrame.groupY[group] / viewportHeight * height - groupPointSize / 2.0,
                             groupPointSize, groupPointSize
                     )
                 }

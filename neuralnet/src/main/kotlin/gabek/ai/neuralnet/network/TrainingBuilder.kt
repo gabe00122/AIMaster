@@ -7,9 +7,11 @@ class TrainingBuilder {
     var testInterval = 0
     var targetError = 0.0
 
-    var trainingSet: DataSet<*, *>? = null
-    var testSet: DataSet<*, *>? = null
+    var splitData: Boolean = true
+    var trainingTestSplit: Double = 0.8
 
-    fun build() = Training(maxReps, testInterval, targetError, trainingSet!!, testSet!!)
+    var dataSet: DataSet<*, *>? = null
+
+    fun build() = Training(maxReps, testInterval, targetError, splitData, trainingTestSplit, dataSet!!)
 }
 

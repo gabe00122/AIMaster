@@ -6,6 +6,7 @@ import gabek.ai.neuralnet.network.TrainingBuilder
 class ExecutionBuilder {
     var networkBuilder: NetworkBuilder? = null
     var trainingBuilder: TrainingBuilder? = null
+    var monitors = ArrayList<ExecutionMonitor>()
 
     fun build(): Execution {
         val networkBuilder = networkBuilder
@@ -15,15 +16,15 @@ class ExecutionBuilder {
             val training = trainingBuilder.build()
 
             if(networkBuilder.input == -1){
-                networkBuilder.input = training.trainingSet.inputSize
+                networkBuilder.input = training.dataSet.inputSize
             }
             if(networkBuilder.output == -1){
-                networkBuilder.output = training.trainingSet.outputSize
+                networkBuilder.output = training.dataSet.outputSize
             }
             val network = networkBuilder.build()
 
 
-            return Execution(network, training)
+            return Execution(network, training, monitors)
         } else {
             throw IllegalStateException("Booth the network builder and the training builder must be assigned.")
         }
@@ -45,8 +46,8 @@ class ExecutionBuilder {
 }
 
 @NetworkDsl
-inline fun execution(block: ExecutionBuilder.() -> Unit): Execution {
+inline fun execution(block: ExecutionBuilder.() -> Unit): ExecutionBuilder {
     val builder = ExecutionBuilder()
     builder.block()
-    return builder.build()
+    return builder
 }

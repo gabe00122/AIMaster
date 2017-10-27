@@ -7,10 +7,10 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.Separator?>
 
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.Pane?>
 <BorderPane fx:id="root" xmlns:fx="http://javafx.com/fxml"
             stylesheets="/gabek/ai/kmeans/KMeans.css" fx:controller="gabek.ai.kmeans.KMeansControl">
     <top>
@@ -25,7 +25,9 @@
     </top>
 
     <center>
-        <Canvas fx:id="canvas" width="600" height="600"/>
+        <Pane fx:id="canvasContainer">
+            <Canvas fx:id="canvas" width="600" height="600"/>
+        </Pane>
     </center>
 
     <bottom>

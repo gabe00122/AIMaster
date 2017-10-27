@@ -1,6 +1,7 @@
 package gabek.ai.neuralnet.network
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * @author Gabriel Keith
@@ -22,7 +23,7 @@ class Layer(val size: Int, random: Random){
         }
     }
 
-    fun retrieveOutput(outputs: Array<Double>){
+    fun retrieveOutput(outputs: ArrayList<Double>){
         for(i in 0 until nodes.size){
             outputs[i] = nodes[i].signal
         }

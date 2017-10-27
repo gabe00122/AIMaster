@@ -56,7 +56,7 @@ fun runKmeans(points: PointField, startFrame: Frame): List<Frame> {
 
     do{
         out.add(calcNextFrame(points, out.last()))
-    } while(totalChange(out[out.size - 2], out[out.size - 1]) != 0.0 && out.size < 500)
+    } while(totalChange(out[out.size - 2], out[out.size - 1]) != 0.0 && out.size < 50)
 
     return out
 }

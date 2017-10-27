@@ -8,6 +8,7 @@ import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.control.TextFormatter
 import javafx.scene.layout.BorderPane
+import javafx.scene.layout.Pane
 import javafx.scene.paint.Color
 import javafx.stage.FileChooser
 import java.io.File
@@ -21,6 +22,7 @@ import kotlin.collections.ArrayList
 
 class KMeansControl {
     @FXML private lateinit var root: BorderPane
+    @FXML private lateinit var canvasContainer: Pane
     @FXML private lateinit var canvas: Canvas
     @FXML private lateinit var groupInput: TextField
     @FXML private lateinit var iterationLabel: Label
@@ -38,7 +40,10 @@ class KMeansControl {
     @FXML private fun initialize(){
         renderer = DataRenderer(canvas)
 
-        //points = uniformRandom(random, 140)
+        canvas.widthProperty().bind(canvasContainer.widthProperty())
+        canvas.heightProperty().bind(canvasContainer.heightProperty())
+        canvas.widthProperty().addListener { _ -> render() }
+        canvas.heightProperty().addListener { _ -> render() }
 
         render()
     }

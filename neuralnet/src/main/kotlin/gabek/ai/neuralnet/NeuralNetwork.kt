@@ -1,5 +1,6 @@
 package gabek.ai.neuralnet
 
+import gabek.ai.neuralnet.executions.imagematch
 import gabek.ai.neuralnet.executions.xor
 
 
@@ -10,6 +11,6 @@ import gabek.ai.neuralnet.executions.xor
 
 
 fun main(args: Array<String>){
-    xor().execute()
+    xor().build().execute()
 }
 

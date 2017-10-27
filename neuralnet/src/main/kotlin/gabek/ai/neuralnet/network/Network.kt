@@ -1,6 +1,7 @@
 package gabek.ai.neuralnet.network
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * @author Gabriel Keith
@@ -11,7 +12,7 @@ class Network(input: Int, hidden: List<Int>, output: Int, private val learningRa
     private val outputLayer = Layer(output, random)
     private val hiddenLayers = Array(hidden.size, { i -> Layer(hidden[i], random) })
 
-    private val outputArray = Array(outputLayer.size, { 0.0 })
+    private val outputList = ArrayList<Double>()
 
     init {
         var currentLayer = inputLayer
@@ -20,6 +21,8 @@ class Network(input: Int, hidden: List<Int>, output: Int, private val learningRa
             currentLayer = layer
         }
         currentLayer.connect(outputLayer)
+
+        repeat(output) { outputList.add(0.0) }
     }
 
     fun train(input: List<Double>, target: List<Double>) {
@@ -27,13 +30,13 @@ class Network(input: Int, hidden: List<Int>, output: Int, private val learningRa
         outputLayer.calculateError(target)
 
         if(hiddenLayers.isNotEmpty()) {
-            for (i in hiddenLayers.size - 1..0) {
+            for (i in hiddenLayers.size - 1 downTo 0) {
                 hiddenLayers[i].backPropagate()
             }
         }
-        inputLayer.backPropagate()
+        //inputLayer.backPropagate()
 
-        inputLayer.updateWeights(learningRate)
+        //inputLayer.updateWeights(learningRate)
         for(layer in hiddenLayers){
             layer.updateWeights(learningRate)
         }
@@ -41,10 +44,15 @@ class Network(input: Int, hidden: List<Int>, output: Int, private val learningRa
     }
 
     fun test(input: List<Double>, target: List<Double>): Double{
-        return Math.pow(target[0] - process(input)[0], 2.0)
+        var sum = 0.0
+        val result = process(input)
+        repeat(result.size){ i ->
+            sum += Math.pow(target[i] - result[i], 2.0)
+        }
+        return sum
     }
 
-    fun process(input: List<Double>): Array<Double> {
+    fun process(input: List<Double>): List<Double> {
         resetSignals()
         inputLayer.setInputs(input)
 
@@ -53,8 +61,8 @@ class Network(input: Int, hidden: List<Int>, output: Int, private val learningRa
         }
         outputLayer.propagate()
 
-        outputLayer.retrieveOutput(outputArray)
-        return outputArray
+        outputLayer.retrieveOutput(outputList)
+        return outputList
     }
 
     override fun toString(): String = buildString {

@@ -18,7 +18,7 @@ class KMeansApp : Application() {
         val scene = Scene(root)
 
         primaryStage.scene = scene
-        primaryStage.isResizable = false
+        //primaryStage.isResizable = false
         primaryStage.title = "KMeans"
         primaryStage.show()
     }

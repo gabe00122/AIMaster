@@ -4,8 +4,8 @@ import java.util.*
 
 class NetworkBuilder {
     var input = -1
-    var hidden = emptyList<Int>()
     var output = -1
+    var hidden = emptyList<Int>()
     var learningRate = 0.0
     var random = Random()
 

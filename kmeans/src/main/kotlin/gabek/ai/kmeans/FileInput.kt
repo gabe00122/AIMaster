@@ -5,10 +5,11 @@ import java.io.*
 
 fun readXY(file: File): PointField {
     val points = PointField()
+    val regex = Regex("\\s+")
 
     open(file) { lines ->
         for(line in lines) {
-            val split = line.split('\t')
+            val split = line.trim().split(regex)
             if (split.size == 2) {
                 val x = split[0].toDouble()
                 val y = split[1].toDouble()

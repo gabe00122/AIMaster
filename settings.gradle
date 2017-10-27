@@ -2,4 +2,5 @@ rootProject.name = 'master'
 include 'kmeans'
 include 'neuralnet'
 include 'markov'
+include 'art'
 

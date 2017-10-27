@@ -1,16 +1,31 @@
 package gabek.ai.neuralnet.data
 
-class DataSet<I, O>(
-        inputFormat: DataFormat<I>,
-        outputFormat: DataFormat<O>,
-        data: List<Pair<List<I>, List<O>>>){
+import java.util.*
 
-    val signals: List<DataPoint> =
+class DataSet<I, O>(
+        private val inputFormat: DataFormat<I>,
+        private val outputFormat: DataFormat<O>,
+        private val data: List<Pair<I, O>>){
+
+    init {
+        data.forEach { (input, output) ->
+            inputFormat.prepare(input)
+            outputFormat.prepare(output)
+        }
+    }
+
+    val signals: List<DataPair> =
             data.mapTo(ArrayList()) { (input, output) ->
-                BasicDataPoint(inputFormat.toSignal(input), outputFormat.toSignal(output))
+                DataPair(inputFormat.toSignal(input), outputFormat.toSignal(output))
             }
 
-    val inputSize = data[0].first.size * inputFormat.desiredWidth
-    val outputSize = data[0].second.size * outputFormat.desiredWidth
+    val inputSize get() = inputFormat.desiredWidth
+    val outputSize get() = outputFormat.desiredWidth
+
+    fun split(trainingPortion: Double, random: Random = Random()): Pair<List<DataPair>, List<DataPair>> {
+        Collections.shuffle(signals, random)
+        val splitAt = (trainingPortion * signals.size).toInt()
+        return Pair(signals.subList(0, splitAt), signals.subList(splitAt, signals.size))
+    }
 }
 
