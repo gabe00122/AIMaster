@@ -20,7 +20,7 @@ class CategoryFormat : DataFormat<String> {
     override fun toSignal(data: String): List<Double> {
         val out = ArrayList<Double>(desiredWidth)
         repeat(desiredWidth){
-            out.add(0.0)
+            out.add(low)
         }
         out[categoryMap[data]!!] = high
 

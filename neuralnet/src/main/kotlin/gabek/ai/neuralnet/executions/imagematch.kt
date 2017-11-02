@@ -5,6 +5,7 @@ import gabek.ai.neuralnet.data.DataSet
 import gabek.ai.neuralnet.execution
 import gabek.ai.neuralnet.image.ImageFormat
 import gabek.ai.neuralnet.image.Region
+import gabek.ai.neuralnet.monitor.AccuracyMonitor
 import gabek.ai.neuralnet.monitor.LearningMonitor
 import java.io.File
 import javax.imageio.ImageIO
@@ -13,15 +14,14 @@ fun imagematch() = execution {
 
     network {
         learningRate = 0.4
-        hidden = listOf(10, 10)
+        hidden = listOf(20)
     }
 
     training {
         maxReps = 10000
-        testInterval = 50
+        testInterval = 1
         targetError = 0.05
-        splitData = false
-        trainingTestSplit = 0.8
+        //splitData = 0.8
 
         val image = ImageIO.read(File("nn5x5.png"))
         val data = ArrayList<Pair<Region, String>>()
@@ -36,4 +36,5 @@ fun imagematch() = execution {
     }
 
     monitors.add(LearningMonitor())
+    monitors.add(AccuracyMonitor())
 }

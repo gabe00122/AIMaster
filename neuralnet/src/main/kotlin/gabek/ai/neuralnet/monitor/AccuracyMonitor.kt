@@ -8,21 +8,21 @@ class AccuracyMonitor: ExecutionMonitor(){
     val outputFile = File("./output/accuracy.txt")
 
     override fun onCompletion(execution: Execution) {
-        OutputStreamWriter(BufferedOutputStream(FileOutputStream(outputFile))).use { writer ->
-            for(point in execution.testSet){
-                val correct = compare(execution.network.process(point.x), point.y, 0.8)
+        val format = execution.testSet.outputFormat
+        val network = execution.network
 
+        //OutputStreamWriter(BufferedOutputStream(FileOutputStream(outputFile))).use { writer ->
+            for(point in execution.testSet.signals){
+                //val x = format.toFormat(execution.network.process(point.x))
+                //val y = format.toFormat(point.y)
+
+                val x = network.process(point.x)
+                val y = point.y
+
+                val correct = x == y
+                println("$y -> $x")
             }
-        }
-    }
 
-
-    private fun compare(a: List<Double>, b: List<Double>, threshold: Double): Boolean{
-        repeat(a.size){ i ->
-            if(Math.abs(a[i] - b[i]) > threshold){
-                return false
-            }
-        }
-        return true
+        //}
     }
 }

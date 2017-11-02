@@ -19,7 +19,7 @@ class ImageFormat : DataFormat<Region> {
 
         for(y in 0 until data.height){
             for(x in 0 until data.width){
-                out.add(data.getColorSum(x, y))
+                out.add(0.9 - data.getColorSum(x, y) * 0.8)
             }
         }
 
