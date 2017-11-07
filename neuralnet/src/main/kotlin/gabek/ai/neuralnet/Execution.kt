@@ -1,6 +1,6 @@
 package gabek.ai.neuralnet
 
-import gabek.ai.neuralnet.data.DataPair
+import gabek.ai.neuralnet.data.DataPoint
 import gabek.ai.neuralnet.data.DataSet
 import gabek.ai.neuralnet.network.Network
 import gabek.ai.neuralnet.network.Training
@@ -10,6 +10,13 @@ import kotlin.collections.ArrayList
 class Execution(val network: Network, val training: Training, private val monitors: List<ExecutionMonitor>) {
     val trainingSet: DataSet<*, *>
     val testSet: DataSet<*, *>
+
+    var iteration: Int = 0
+        private set
+    var error: Double = 0.0
+        private set
+    var timeTaken: Double = 0.0
+        private set
 
     init {
         if(training.splitData >= 0) {
@@ -25,9 +32,11 @@ class Execution(val network: Network, val training: Training, private val monito
     fun execute(){
         val random = Random()
         val trainingSignals = ArrayList(trainingSet.signals)
-        val pattersByOutputs = trainingSignals.size * trainingSignals[0].y.size
+        val testSignals = testSet.signals
 
         monitors.forEach { it.onExecutionBegin(this) }
+
+        val startTime = System.currentTimeMillis()
 
         for(i in 0 until training.maxReps){
             Collections.shuffle(trainingSignals, random)
@@ -37,22 +46,33 @@ class Execution(val network: Network, val training: Training, private val monito
             }
 
             if(i.rem(training.testInterval) == 0){
-                var tsse = 0.0
-                for((train, target) in trainingSignals){
-                    tsse += network.test(train, target)
-                }
-                val rmse = Math.sqrt(tsse / pattersByOutputs)
+                val rmse = test(network, trainingSignals)
+                iteration = i
 
                 monitors.forEach { it.onTest(this, i, rmse) }
 
                 if(rmse <= training.targetError){
-                    println("Done at $i")
                     break
                 }
             }
         }
 
+        timeTaken = (System.currentTimeMillis() - startTime) / 1000.0
+
+        error = test(network, testSignals)
+        //println("Done at $iteration - $timeTaken, with error of: $rmse")
+
         monitors.forEach { it.onCompletion(this) }
     }
 
+
+    fun test(network: Network, testSignals: List<DataPoint>): Double{
+        val pattersByOutputs = testSignals.size / testSignals[0].y.size
+
+        var tsse = 0.0
+        for((train, target) in testSignals){
+            tsse += network.test(train, target)
+        }
+        return Math.sqrt(tsse / pattersByOutputs)
+    }
 }

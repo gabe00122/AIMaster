@@ -34,9 +34,9 @@ class Network(input: Int, hidden: List<Int>, output: Int, private val learningRa
                 hiddenLayers[i].backPropagate()
             }
         }
-        //inputLayer.backPropagate()
+        inputLayer.backPropagate()
 
-        //inputLayer.updateWeights(learningRate)
+        inputLayer.updateWeights(learningRate)
         for(layer in hiddenLayers){
             layer.updateWeights(learningRate)
         }

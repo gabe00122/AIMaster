@@ -1,6 +1,9 @@
 package gabek.ai.neuralnet.image
 
 import gabek.ai.neuralnet.data.DataFormat
+import java.awt.image.BufferedImage
+import java.io.File
+import javax.imageio.ImageIO
 
 class ImageFormat : DataFormat<Region> {
     override var desiredWidth = -1
@@ -25,4 +28,9 @@ class ImageFormat : DataFormat<Region> {
 
         return out
     }
+}
+
+
+fun loadImage(path: String): BufferedImage {
+    return ImageIO.read(File(path))
 }

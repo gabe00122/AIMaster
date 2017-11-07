@@ -5,6 +5,7 @@ import gabek.ai.neuralnet.data.DataSet
 import gabek.ai.neuralnet.execution
 import gabek.ai.neuralnet.image.ImageFormat
 import gabek.ai.neuralnet.image.Region
+import gabek.ai.neuralnet.image.loadImage
 import gabek.ai.neuralnet.monitor.AccuracyMonitor
 import gabek.ai.neuralnet.monitor.LearningMonitor
 import java.io.File
@@ -13,28 +14,33 @@ import javax.imageio.ImageIO
 fun imagematch() = execution {
 
     network {
-        learningRate = 0.4
-        hidden = listOf(20)
+        learningRate = 0.2
+        hidden = listOf(15)
     }
 
     training {
-        maxReps = 10000
-        testInterval = 1
+        maxReps = 20000
+        testInterval = 50
         targetError = 0.05
-        //splitData = 0.8
+        splitData = 0.8
 
-        val image = ImageIO.read(File("nn5x5.png"))
+        val image = loadImage("num25x25.png")
         val data = ArrayList<Pair<Region, String>>()
-        val categories = listOf("+", "-", "\\", "/", "x")
-        val epocs = 10; val width = 5; val height = 5
+        val categories = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+        //val categories = listOf("+", "-", "\\", "/", "+")
+        val epocs = 10
+        val width = 25
+        val height = 25
 
-        repeat(epocs){ i -> repeat(categories.size){ j ->
-            data.add(Pair(Region(image, j * width, i * height, width, height), categories[j]))
-        }}
+        repeat(epocs){ i ->
+            repeat(categories.size){ j ->
+                data.add(Pair(Region(image,j * width, i * height, width, height), categories[j]))
+            }
+        }
 
         dataSet = DataSet(ImageFormat(), CategoryFormat(), data)
     }
 
-    monitors.add(LearningMonitor())
+    monitors.add(LearningMonitor(true))
     monitors.add(AccuracyMonitor())
 }

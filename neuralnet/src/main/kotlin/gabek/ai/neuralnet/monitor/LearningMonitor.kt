@@ -7,7 +7,7 @@ import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 import java.io.PrintWriter
 
-class LearningMonitor : ExecutionMonitor(){
+class LearningMonitor(val console: Boolean = false) : ExecutionMonitor(){
     val outputFile = File("./output/learning.csv")
 
     private var printer: PrintWriter? = null
@@ -19,6 +19,8 @@ class LearningMonitor : ExecutionMonitor(){
 
     override fun onTest(execution: Execution, epoc: Int, rmse: Double) {
         printer?.println("$epoc, $rmse")
+
+        if(console) { println("$epoc, $rmse") }
     }
 
     override fun onCompletion(execution: Execution) {

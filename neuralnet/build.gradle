@@ -2,7 +2,7 @@ group 'gabek.ai'
 version '0.1'
 
 ext {
-    main_class = 'gabek.ai.neuralnet.NeuralNetworkKt'
+    main_class = 'gabek.ai.neuralnet.MainKt'
 }
 
 task launch(type: JavaExec, dependsOn: classes){

@@ -24,9 +24,9 @@ fun fromFile(file: File): List<String>{
 
 
 fun main(args: Array<String>) {
-    val chain = Chain(3)
+    val chain = Chain(1)
 
-    val data = fromFile(File("training.txt"))
+    val data = fromFile(File("dist.male.first.txt"))
     //println(data)
     chain.train(data)
 

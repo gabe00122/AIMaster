@@ -18,9 +18,9 @@ class DataSet<I, O>(
         }
     }
 
-    val signals: List<DataPair> =
+    val signals: List<DataPoint> =
             data.mapTo(ArrayList()) { (input, output) ->
-                DataPair(inputFormat.toSignal(input), outputFormat.toSignal(output))
+                DataPoint(input, output, inputFormat.toSignal(input), outputFormat.toSignal(output))
             }
 
     val inputSize get() = inputFormat.desiredWidth
@@ -28,7 +28,7 @@ class DataSet<I, O>(
 
     fun split(trainingPortion: Double, random: Random = Random()): Pair<DataSet<I, O>, DataSet<I, O>> {
         val temp = ArrayList(data)
-        Collections.shuffle(temp)
+        //Collections.shuffle(temp)
 
         val splitAt = (trainingPortion * temp.size).toInt()
         return Pair(
