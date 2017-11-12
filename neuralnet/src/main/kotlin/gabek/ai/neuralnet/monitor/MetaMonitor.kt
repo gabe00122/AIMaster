@@ -32,6 +32,11 @@ class MetaMonitor(val reps: Int) : ExecutionMonitor() {
     override fun onCompletion(execution: Execution) {
         iterations[iterations.size-1] += execution.iteration
         time[time.size-1] += execution.timeTaken
-        scores[scores.size-1] += execution.error
+        //scores[scores.size-1] += execution.error
+
+        val testSet = execution.testSet.signals
+        val format = execution.testSet.outputFormat
+        val error = testSet.count { format.toFormat(execution.network.process(it.x)) != it.formatY }
+        scores[scores.size-1] += 1.0 - (error / testSet.size.toDouble())
     }
 }

@@ -11,8 +11,8 @@ import javafx.scene.paint.Paint
 class DataRenderer(private val canvas: Canvas) {
     var pointSize = 7.0
     var groupPointSize = 10.0
-    var viewportWidth = 1000000
-    var viewportHeight = 1000000
+    var viewportWidth = 1000000.0
+    var viewportHeight = 1000000.0
 
     init {
         clear()

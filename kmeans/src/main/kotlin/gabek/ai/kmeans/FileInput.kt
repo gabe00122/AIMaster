@@ -9,14 +9,16 @@ fun readXY(file: File): PointField {
 
     open(file) { lines ->
         for(line in lines) {
-            val split = line.trim().split(regex)
-            if (split.size == 2) {
-                val x = split[0].toDouble()
-                val y = split[1].toDouble()
+            try {
+                val split = line.trim().split(regex)
+                if (split.size == 2) {
+                    val x = split[0].toDouble()
+                    val y = split[1].toDouble()
 
-                points.xAxis.add(x)
-                points.yAxis.add(y)
-            }
+                    points.xAxis.add(x)
+                    points.yAxis.add(y)
+                }
+            } catch (e: NumberFormatException){}
         }
     }
 

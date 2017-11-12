@@ -20,7 +20,11 @@ class LearningMonitor(val console: Boolean = false) : ExecutionMonitor(){
     override fun onTest(execution: Execution, epoc: Int, rmse: Double) {
         printer?.println("$epoc, $rmse")
 
-        if(console) { println("$epoc, $rmse") }
+        val testSet = execution.testSet.signals
+        val format = execution.testSet.outputFormat
+        val score = testSet.count { format.toFormat(execution.network.process(it.x)) != it.formatY }
+
+        if(console) { println("$epoc, $rmse, ${testSet.size - score}/${testSet.size}") }
     }
 
     override fun onCompletion(execution: Execution) {

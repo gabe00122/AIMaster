@@ -15,10 +15,9 @@ class KMeansApp : Application() {
 
     override fun start(primaryStage: Stage) {
         val root: Parent = FXMLLoader.load(javaClass.getResource("/gabek/ai/kmeans/KMeans.fxml"))
-        val scene = Scene(root)
+        val scene = Scene(root, 800.0, 800.0)
 
         primaryStage.scene = scene
-        //primaryStage.isResizable = false
         primaryStage.title = "KMeans"
         primaryStage.show()
     }

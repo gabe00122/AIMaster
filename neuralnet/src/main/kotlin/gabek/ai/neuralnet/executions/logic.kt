@@ -27,8 +27,8 @@ fun xor() = execution {
         ))
     }
 
-    //monitors.add(LearningMonitor(console = true))
-    //monitors.add(GridMonitor())
+    monitors.add(LearningMonitor(console = true))
+    monitors.add(GridMonitor())
     //monitors.add(AccuracyMonitor())
 }
 

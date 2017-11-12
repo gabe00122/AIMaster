@@ -8,8 +8,6 @@ import gabek.ai.neuralnet.image.Region
 import gabek.ai.neuralnet.image.loadImage
 import gabek.ai.neuralnet.monitor.AccuracyMonitor
 import gabek.ai.neuralnet.monitor.LearningMonitor
-import java.io.File
-import javax.imageio.ImageIO
 
 fun imagematch() = execution {
 
@@ -20,8 +18,8 @@ fun imagematch() = execution {
 
     training {
         maxReps = 20000
-        testInterval = 50
-        targetError = 0.05
+        testInterval = 75
+        targetError = 0.4
         splitData = 0.8
 
         val image = loadImage("num25x25.png")

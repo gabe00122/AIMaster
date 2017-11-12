@@ -78,10 +78,14 @@ class KMeansControl {
         val file: File? = fileChooser.showOpenDialog(root.scene.window)
 
         if(file != null){
-            points = readXY(file)
+            val points = readXY(file)
+            this.points = points
+
             frameIndex = 0
             frames = null
 
+            renderer.viewportWidth = points.xAxis.max() ?: 1.0
+            renderer.viewportHeight = points.yAxis.max() ?: 1.0
             render()
         }
     }
