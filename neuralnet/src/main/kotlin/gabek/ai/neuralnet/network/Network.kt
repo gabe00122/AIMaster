@@ -12,7 +12,7 @@ class Network(input: Int, hidden: List<Int>, output: Int, private val learningRa
     private val outputLayer = Layer(output, random)
     private val hiddenLayers = Array(hidden.size, { i -> Layer(hidden[i], random) })
 
-    private val outputList = ArrayList<Double>()
+    val outputList = ArrayList<Double>()
 
     init {
         var currentLayer = inputLayer

@@ -3,8 +3,7 @@ version '0.1'
 
 buildscript {
     ext {
-        gradle_version = '4.3'
-        kotlin_version = '1.1.51'
+        kotlin_version = '1.2.0'
     }
 
     repositories {
@@ -14,11 +13,6 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
-}
-
-wrapper {
-    gradleVersion = gradle_version
-    distributionType = Wrapper.DistributionType.ALL
 }
 
 allprojects {
